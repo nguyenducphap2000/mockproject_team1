@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/cart', function () {
     return view('cart');
@@ -45,6 +45,10 @@ Route::get('/add-product', function () {
 Route::get('/order', function () {
     return view('order');
 })->name('order');
+
+Route::get('/profile-form', function () {
+    return view('profile-form');
+})->name('profile-form');
 
 Route::get('/about', function () {
     return view('about');

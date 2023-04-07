@@ -31,7 +31,7 @@ class UpdateProfileController extends Controller
     {
         $validate = $this->validator($request->all());
         if ($validate->fails()) {
-            return redirect('/profile')->withErrors($validate->errors());
+            return redirect('/profile-form')->withErrors($validate->errors());
         } else {
             $check = User::where('id', $id)
                 ->update(
@@ -42,11 +42,7 @@ class UpdateProfileController extends Controller
                         'password' => $request->password === null ? Auth::user()->password : Hash::make($request->password)
                     ]
                 );
-            if ($check) {
-                return redirect('/home');
-            } else {
-                return redirect('/profile');
-            }
+            return redirect('/profile-form')->with('updateStatus', $check );
         }
     }
 }
