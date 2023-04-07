@@ -28,6 +28,9 @@ Route::get('/products', function () {
 Route::get('/single-product', function () {
     return view('single-product');
 });
+Route::get('/category', function () {
+    return view('category');
+});
 
 Auth::routes();
 

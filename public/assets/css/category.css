@@ -1,0 +1,23 @@
+.heading{
+    margin-top: 160px;
+    margin-bottom: 30px;
+}
+.filter-title{
+    margin-bottom: 2em;
+}
+.input-group{
+    margin-bottom: 2em;
+}
+
+.check-group{
+    margin-bottom: 1em;
+}
+
+form h4 {
+    margin-bottom: 1em;
+    text-transform: capitalize;
+}
+
+.form-check{
+    margin-bottom: 0.5em;
+}
