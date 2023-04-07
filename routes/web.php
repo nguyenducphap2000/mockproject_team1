@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UpdateProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth')->group(function () {
+    Route::view('/profile', 'profile')->name('profile');
+    Route::put('/profile/{id}', [UpdateProfileController::class, 'update'])->name('update-profile');
+});
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+Route::get('/checkout', function () {
+    return view('checkout');
+})->name('checkout');
+
+Route::get('/overview', function () {
+    return view('overview');
+})->name('overview');
+
+Route::get('/user-list', function () {
+    return view('user-list');
+})->name('user-list');
+
+Route::get('/add-product', function () {
+    return view('add-product');
+})->name('add-product');
+
+Route::get('/order', function () {
+    return view('order');
+})->name('order');
+
 Route::get('/about', function () {
     return view('about');
 });

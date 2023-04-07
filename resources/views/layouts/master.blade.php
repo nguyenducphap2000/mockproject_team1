@@ -71,10 +71,27 @@ https://templatemo.com/tm-571-hexashop
                                     <li><a href="{{ url('/contact') }}">Contact Us</a></li>
                                 </ul>
                             </li>
-                            <li class="scroll-to-section">
-                                <a href="{{ route('login') }}">Login</a>
-                            </li>
-                            <li class="scroll-to-section"><a href="{{ route('register') }}">Sign up</a></li>
+                            @if (Auth::check())
+                                <li class="submenu">
+                                    <a href="{{ route('login') }}">Hi, {{ Auth::user()->name }}</a>
+                                    <ul>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            @else
+                                <li class="scroll-to-section">
+                                    <a href="{{ route('login') }}">Login</a>
+                                </li>
+                                <li class="scroll-to-section"><a href="{{ route('register') }}">Sign up</a></li>
+                            @endif
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
