@@ -67,7 +67,7 @@ https://templatemo.com/tm-571-hexashop
                                     <li><a href="{{url('/about')}}">About Us</a></li>
                                     <li><a href="{{url('/products')}}">Products</a></li>
                                     <li><a href="{{url('/single-product')}}">Single Product</a></li>
-                                    <li><a href="{{url('/contact')}}">Contact Us</a></li>
+                                    <li><a href="{{url('/contact')}}">Contact Ussss</a></li>
                                 </ul>
                             </li>
                             <li class="submenu">
