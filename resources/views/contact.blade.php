@@ -62,7 +62,7 @@ https://templatemo.com/tm-571-hexashop
                             <li class="scroll-to-section"><a href="{{url('/')}}">Women's</a></li>
                             <li class="scroll-to-section"><a href="{{url('/')}}">Kid's</a></li>
                             <li class="submenu">
-                                <a href="javascript:;">Pages</a>
+                                <a href="javascript:;">Page'ssss</a>
                                 <ul>
                                     <li><a href="{{url('/about')}}">About Us</a></li>
                                     <li><a href="{{url('/products')}}">Products</a></li>
