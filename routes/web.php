@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UpdateProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,14 +18,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth', 'authadmin'])->group(function () {
-    // Route::view('/profile', 'profile')->name('profile');
-    Route::put('/profile/{id}', [UpdateProfileController::class, 'update'])->name('update-profile');
-    Route::get('/overview', [AdminController::class, 'index'])->name('overview');
-    Route::get('/user-list', [AdminController::class, 'listOfUser'])->name('user-list');
-    Route::post('/user-disable', [AdminController::class, 'disableUser'])->name('user-disable');
-    Route::post('/toggle-disable', [AdminController::class, 'toggleDisableUser'])->name('toggle-disable');
-    Route::post('/update-user', [AdminController::class, 'update'])->name('update-user');
-    Route::get('/search-user', [AdminController::class, 'search'])->name('search-user');
+    Route::prefix('admin')->group(function () {
+        Route::get('/overview', [ManageUserController::class, 'index'])->name('overview');
+
+        Route::prefix('manage-user')->group(function () {
+            Route::get('/user-list', [ManageUserController::class, 'listOfUser'])->name('user-list');
+            Route::post('/user-disable', [ManageUserController::class, 'disableUser'])->name('user-disable');
+            Route::post('/toggle-disable', [ManageUserController::class, 'toggleDisableUser'])->name('toggle-disable');
+            Route::post('/update-user', [ManageUserController::class, 'update'])->name('update-user');
+            Route::get('/search-user', [ManageUserController::class, 'search'])->name('search-user');
+        });
+
+        Route::prefix('manage-product')->group(function () {
+            Route::get('/product-list', [ProductController::class, 'index'])->name('product-list');
+        });
+    });
 
     Route::get('/cart', function () {
         return view('cart');
@@ -41,10 +49,6 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
     Route::get('/order', function () {
         return view('order');
     })->name('order');
-
-    Route::get('/profile-form', function () {
-        return view('profile-form');
-    })->name('profile-form');
 });
 
 Route::middleware(['auth', 'authdisable'])->group(function () {

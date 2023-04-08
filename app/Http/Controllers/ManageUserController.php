@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class AdminController extends Controller
+class ManageUserController extends Controller
 {
     private $userObject = null;
     private const PAGE = 10;

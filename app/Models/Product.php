@@ -8,4 +8,37 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'image',
+        'price',
+        'stock',
+        'product_status',
+        'import_date',
+    ];
+
+    public function getAll()
+    {
+        return Product::paginate(10);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function producer()
+    {
+        return $this->belongsTo(Producer::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+    public function size()
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

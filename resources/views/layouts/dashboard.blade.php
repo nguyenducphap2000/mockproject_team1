@@ -141,12 +141,12 @@
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="d-none d-xl-inline-block ml-1">{{Auth::user()->name}}</span>
+                            <span class="d-none d-xl-inline-block ml-1">{{ Auth::user()->name }}</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{route('profile-form')}}"><i
+                            <a class="dropdown-item" href="{{ route('profile-form') }}"><i
                                     class="bx bx-user font-size-16 align-middle mr-1"></i>
                                 Profile</a>
                             <div class="dropdown-divider"></div>
@@ -171,15 +171,16 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title">Menu</li>
+                        @if (Auth::user()->is_admin)
+                            <li class="menu-title">Menu</li>
 
-                        <li>
-                            <a href="{{ route('overview') }}" class="waves-effect">
-                                <i class="bx bx-home-circle"></i>
-                                <span>Dashboards</span>
-                            </a>
-                        </li>
-
+                            <li>
+                                <a href="{{ route('overview') }}" class="waves-effect">
+                                    <i class="bx bx-home-circle"></i>
+                                    <span>Dashboards</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="menu-title">Apps</li>
 
                         <li>
@@ -188,31 +189,24 @@
                                 <span>Ecommerce</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ route('product-list') }}">Products</a></li>
                                 <li><a href="{{ route('order') }}">Orders</a></li>
                                 <li><a href="{{ route('cart') }}">Cart</a></li>
-                                <li><a href="{{ route('add-product') }}">Add Product</a></li>
+                                @if (Auth::user()->is_admin)
+                                    <li><a href="{{ route('add-product') }}">Add Product</a></li>
+                                @endif
                             </ul>
                         </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-receipt"></i>
-                                <span>Invoices</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="invoices-list.html">Invoice List</a></li>
-                                <li><a href="invoices-detail.html">Invoice Detail</a></li>
-                            </ul>
-                        </li>
-
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="bx bxs-user-detail"></i>
                                 <span>Users</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{ route('user-list') }}">User List</a></li>
-                                <li><a href="{{route('profile-form')}}">Profile</a></li>
+                                @if (Auth::user()->is_admin)
+                                    <li><a href="{{ route('user-list') }}">User List</a></li>
+                                @endif
+                                <li><a href="{{ route('profile-form') }}">Profile</a></li>
                             </ul>
                         </li>
                     </ul>
