@@ -12,26 +12,25 @@ use function PHPUnit\Framework\isEmpty;
 
 class UpdateProfileController extends Controller
 {
-    public function validator(array $data)
+    private $userObject = null;
+    public function __construct()
     {
-        $rules = [
-            'name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phoneNumber' => ['required', 'string', 'max:10'],
-        ];
-        if ($data['password'] === null && $data['password_confirmation'] === null) {
-            $validate = Validator::make($data, $rules);
-        } else {
-            $rules['password'] = ['required', 'string', 'min:8', 'confirmed'];
-            $validate = Validator::make($data, $rules);
+        $this->userObject = $this->getInstance();
+    }
+
+    public function getInstance()
+    {
+        if ($this->userObject === null) {
+            $userObject = new User();
+            return $userObject;
         }
-        return $validate;
+        return $this->userObject;
     }
     public function update(Request $request, $id)
     {
-        $validate = $this->validator($request->all());
+        $validate = $this->userObject->validator($request->all());
         if ($validate->fails()) {
-            return redirect('/profile-form')->withErrors($validate->errors());
+            return redirect()->route('profile-form')->withErrors($validate->errors());
         } else {
             $check = User::where('id', $id)
                 ->update(
@@ -42,7 +41,7 @@ class UpdateProfileController extends Controller
                         'password' => $request->password === null ? Auth::user()->password : Hash::make($request->password)
                     ]
                 );
-            return redirect('/profile-form')->with('updateStatus', $check );
+            return redirect()->route('profile-form')->with('updateStatus', $check);
         }
     }
 }

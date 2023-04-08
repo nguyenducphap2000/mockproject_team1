@@ -49,14 +49,6 @@
                         id="vertical-menu-btn">
                         <i class="fa fa-fw fa-bars"></i>
                     </button>
-
-                    <!-- App Search-->
-                    <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="bx bx-search-alt"></span>
-                        </div>
-                    </form>
                 </div>
 
                 <div class="d-flex">
@@ -216,7 +208,7 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="bx bxs-user-detail"></i>
-                                <span>Contacts</span>
+                                <span>Users</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="{{ route('user-list') }}">User List</a></li>
