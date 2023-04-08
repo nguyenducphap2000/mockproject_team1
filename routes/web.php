@@ -25,12 +25,17 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
             Route::get('/user-list', [ManageUserController::class, 'listOfUser'])->name('user-list');
             Route::post('/user-disable', [ManageUserController::class, 'disableUser'])->name('user-disable');
             Route::post('/toggle-disable', [ManageUserController::class, 'toggleDisableUser'])->name('toggle-disable');
-            Route::post('/update-user', [ManageUserController::class, 'update'])->name('update-user');
-            Route::get('/search-user', [ManageUserController::class, 'search'])->name('search-user');
+            Route::post('/update-user', [ManageUserController::class, 'updateUser'])->name('update-user');
+            Route::get('/search-user', [ManageUserController::class, 'searchUser'])->name('search-user');
         });
 
         Route::prefix('manage-product')->group(function () {
             Route::get('/product-list', [ProductController::class, 'index'])->name('product-list');
+            Route::get('/add-product',[ProductController::class, 'indexForm'])->name('add-product');
+            Route::post('/store-product',[ProductController::class, 'storeProduct'])->name('store-product');
+            Route::get('/delete-product/{id}',[ProductController::class, 'deleteProduct'])->name('delete-product');
+            Route::post('/update-product',[ProductController::class, 'updateProduct'])->name('update-product');
+            Route::get('/search-product', [ProductController::class, 'searchProduct'])->name('search-product');
         });
     });
 
@@ -41,10 +46,6 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
     Route::get('/checkout', function () {
         return view('checkout');
     })->name('checkout');
-
-    Route::get('/add-product', function () {
-        return view('add-product');
-    })->name('add-product');
 
     Route::get('/order', function () {
         return view('order');

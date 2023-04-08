@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('producer_id')->constrained('producers')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('producer')->nullable();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('image');
-            $table->foreignId('color_id')->constrained('colors')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('image')->nullable();
+            $table->string('color')->nullable();
             $table->foreignId('size_id')->constrained('sizes')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->float('price');
-            $table->integer('stock');
+            $table->bigInteger('price');
+            $table->bigInteger('stock');
             $table->boolean('product_status')->default(false);
             $table->timestamp('import_date')->nullable();
             $table->timestamps();

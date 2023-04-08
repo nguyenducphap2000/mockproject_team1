@@ -21,7 +21,39 @@
                 </div>
             </div>
             <!-- end page title -->
-
+            <div class="row">
+                <div class="col-12">
+                    @if (session('disableNotify'))
+                        <div class="alert alert-success" role="alert">
+                            Delete product successfully
+                        </div>
+                    @endif
+                    @if (session('disableFail'))
+                        <div class="alert alert-danger" role="alert">
+                            Delete product failed
+                        </div>
+                    @endif
+                    @if (session('updateProductStatus'))
+                        <div class="alert alert-success" role="alert">
+                            Update product successfully
+                        </div>
+                    @endif
+                    @if (session('updateProductFail'))
+                        <div class="alert alert-danger" role="alert">
+                            Update product failed
+                        </div>
+                    @endif
+                </div>
+            </div>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -29,10 +61,13 @@
                             <div class="row mb-2">
                                 <div class="col-sm-4">
                                     <div class="search-box mr-2 mb-2 d-inline-block">
-                                        <div class="position-relative">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <i class="bx bx-search-alt search-icon"></i>
-                                        </div>
+                                        <form action="{{ route('search-product') }}" method="GET">
+                                            <div class="position-relative">
+                                                <input value="{{ old('txtSearch') }}" name="txtSearch" type="text"
+                                                    class="form-control" placeholder="Search by name and producer...">
+                                                <i class="bx bx-search-alt search-icon"></i>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col-sm-8">
@@ -59,7 +94,8 @@
                                             <th>Color</th>
                                             <th>Size</th>
                                             <th>Stock</th>
-                                            <th>View Detail</th>
+                                            <th>Status</th>
+                                            <th>Image</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -69,34 +105,44 @@
                                                 <td><a href="javascript: void(0);"
                                                         class="text-body font-weight-bold">{{ $index++ }}</a> </td>
                                                 <td>{{ $product->name }}</td>
-                                                <td>
+                                                <td class="price">
                                                     {{ $product->price }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->producer->name }}
+                                                    {{ $product->producer }}
                                                 </td>
                                                 <td>
                                                     {{ $product->category->name }}
                                                 </td>
                                                 <td>
-                                                    {{ $product->color->name }}
+                                                    {{ $product->color }}
                                                 </td>
                                                 <td>{{ $product->size->name }}</td>
                                                 <td>{{ $product->stock }}</td>
                                                 <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-primary btn-sm btn-rounded"
-                                                        data-toggle="modal" data-target=".exampleModal">
-                                                        View Details
-                                                    </button>
+                                                    @if ($product->product_status)
+                                                        <span class="badge badge-pill badge-soft-danger font-size-12">
+                                                            Sold out
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-pill badge-soft-success font-size-12">
+                                                            Available
+                                                        </span>
+                                                    @endif
                                                 </td>
                                                 <td>
-                                                    <a href="javascript:void(0);" class="mr-3 text-primary"
-                                                        data-toggle="tooltip" data-placement="top" title=""
-                                                        data-original-title="Edit"><i
+                                                    <img src="{{ asset('storage/' . $product->image) }}" alt=""
+                                                        class="avatar-lg">
+                                                </td>
+                                                <td>
+                                                    <a onclick="updateProduct({{ $product }})" data-toggle="modal"
+                                                        data-target=".bs-example-modal-xl" href="javascript:void(0);"
+                                                        class="mr-3 text-primary" data-toggle="tooltip" data-placement="top"
+                                                        title="" data-original-title="Edit"><i
                                                             class="mdi mdi-pencil font-size-18"></i></a>
-                                                    <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip"
-                                                        data-placement="top" title="" data-original-title="Delete"><i
+                                                    <a onclick="deleteProduct('{{ $product->id }}', '{{ $product->name }}')"
+                                                        class="text-danger" data-toggle="tooltip" data-placement="top"
+                                                        title="" data-original-title="Delete"><i
                                                             class="mdi mdi-close font-size-18"></i></a>
                                                 </td>
                                             </tr>
@@ -104,23 +150,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <ul class="pagination pagination-rounded justify-content-end mb-2">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                        <i class="mdi mdi-chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                        <i class="mdi mdi-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                            {{ $products->links() }}
                         </div>
                     </div>
                 </div>
@@ -129,93 +159,135 @@
         </div> <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-    <!-- Modal -->
-    <div class="modal fade exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!--  Modal content for the above example -->
+    <div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+                    <h5 class="modal-title mt-0" id="myExtraLargeModalLabel">Update Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-2">Product id: <span class="text-primary">#SK2540</span></p>
-                    <p class="mb-4">Billing Name: <span class="text-primary">Neal Matthews</span></p>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="POST" action="{{ route('update-product') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="productId" id="productId">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="productName">Product Name</label>
+                                                    <input value="{{ old('productName') }}" id="productName"
+                                                        name="productName" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="manufacturerName">Manufacturer Name</label>
+                                                    <input value="{{ old('manufacturerName') }}" id="manufacturerName"
+                                                        name="manufacturerName" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="price">Price</label>
+                                                    <input min="0" value="{{ old('price') }}" id="price"
+                                                        name="price" type="number" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="stock">Stock</label>
+                                                    <input min="1" value="{{ old('stock') }}" id="stock"
+                                                        name="stock" type="number" class="form-control">
+                                                </div>
+                                            </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-centered table-nowrap">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Product Name</th>
-                                    <th scope="col">Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <div>
-                                            <img src="assets/dashboard/images/product/img-7.png" alt=""
-                                                class="avatar-sm">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Category</label>
+                                                    <select id="category" name="category" class="form-control select2">
+                                                        <option value="">Select</option>
+                                                        @foreach ($categories as $item)
+                                                            <option value="{{ $item->id }}">
+                                                                {{ $item->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label">Size</label>
+                                                    <select id="size" name="size" class="form-control select2">
+                                                        <option value="">Select</option>
+                                                        @foreach ($sizes as $item)
+                                                            <option value="{{ $item->id }}">
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="color">Color</label>
+                                                    <input id="color" value="{{ old('color') }}" id="color"
+                                                        name="color" type="text" class="form-control">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="file">File Image</label>
+                                                    <input id="file" name="file" type="file"
+                                                        class="form-control">
+                                                </div>
+                                                {{-- <img src="{{ asset('storage/1680975716_Jean.jpg') }}" alt=""
+                                                    class="avatar-lg"> --}}
+                                            </div>
                                         </div>
-                                    </th>
-                                    <td>
-                                        <div>
-                                            <h5 class="text-truncate font-size-14">Wireless Headphone (Black)</h5>
-                                            <p class="text-muted mb-0">$ 225 x 1</p>
-                                        </div>
-                                    </td>
-                                    <td>$ 255</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div>
-                                            <img src="{{ asset('assets/dashboard/images/product/img-4.png') }}"
-                                                alt="" class="avatar-sm">
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div>
-                                            <h5 class="text-truncate font-size-14">Hoodie (Blue)</h5>
-                                            <p class="text-muted mb-0">$ 145 x 1</p>
-                                        </div>
-                                    </td>
-                                    <td>$ 145</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h6 class="m-0 text-right">Sub Total:</h6>
-                                    </td>
-                                    <td>
-                                        $ 400
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h6 class="m-0 text-right">Shipping:</h6>
-                                    </td>
-                                    <td>
-                                        Free
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h6 class="m-0 text-right">Total:</h6>
-                                    </td>
-                                    <td>
-                                        $ 400
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+                                        <button type="submit" class="btn btn-primary mr-1 waves-effect waves-light">
+                                            Save changes
+                                        </button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- end row -->
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        function deleteProduct(id, name) {
+            let url = "{{ route('delete-product', ':id') }}";
+            url = url.replace(':id', id);
+            let text = "Do you want to delete " + name + " ?";
+            if (confirm(text) == true) {
+                document.location.href = url;
+            }
+        }
+
+        function updateProduct(data) {
+            console.log(data);
+            $("#productName").val(data.name);
+            $("#manufacturerName").val(data.producer);
+            $("#price").val(data.price);
+            $("#stock").val(data.stock);
+            $("#category").val(data.category_id).change();
+            $("#size").val(data.size_id).change();
+            $("#color").val(data.color);
+            $("#productId").val(data.id);
+        }
+        var price = document.getElementsByClassName("price");
+        price = Array.prototype.slice.call(price, 0);
+        price.forEach((item, index) => {
+            item.innerHTML = parseInt(item.innerHTML.trim()).toLocaleString('en-US', {style : 'currency', currency : 'USD'});;
+        })
+    </script>
 @endsection

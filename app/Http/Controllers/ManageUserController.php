@@ -57,7 +57,7 @@ class ManageUserController extends Controller
         return redirect()->route('user-list');
     }
 
-    public function update(Request $request)
+    public function updateUser(Request $request)
     {
         $check = $this->userObject->updateUser($request->all());
         if (isset($check['error'])) {
@@ -70,7 +70,7 @@ class ManageUserController extends Controller
         }
     }
 
-    public function search(Request $request)
+    public function searchUser(Request $request)
     {
         $request->flash();
         return view('admin.user-list', [
