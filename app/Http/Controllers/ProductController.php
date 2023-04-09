@@ -88,4 +88,23 @@ class ProductController extends Controller
             'sizes' => Size::all()
         ]);
     }
+
+    public function showProduct()
+    {
+        return view('products', [
+            'products' => $this->productObject->getAll(),
+            'categories' => Category::all(),
+            'sizes' => Size::all()
+        ]);
+    }
+
+    public function filterProduct(Request $request)
+    {
+        $request->flash();
+        return view('products', [
+            'products' => $this->productObject->filterProduct($request)->paginate(9),
+            'categories' => Category::all(),
+            'sizes' => Size::all()
+        ]);
+    }
 }

@@ -41,9 +41,8 @@ https://templatemo.com/tm-571-hexashop
             <div></div>
             <div></div>
         </div>
+        <!-- ***** Preloader End ***** -->
     </div>
-    <!-- ***** Preloader End ***** -->
-
 
     <!-- ***** Header Area Start ***** -->
     <header class="header-area header-sticky">
@@ -58,16 +57,14 @@ https://templatemo.com/tm-571-hexashop
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#men">Men's</a></li>
-                            <li class="scroll-to-section"><a href="#women">Women's</a></li>
-                            <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                            <li class="scroll-to-section"><a href="{{ route('index') }}"
+                                    class="{{ $_SERVER['REQUEST_URI'] === '/' ? 'active' : '' }}">Home</a></li>
+                            <li class="scroll-to-section"><a href="{{ route('showProduct') }}"
+                                    class="{{ $_SERVER['REQUEST_URI'] === '/products' ? 'active' : '' }}">Product</a></li>
                             <li class="submenu">
-                                <a href="javascript:;">Pages</a>
+                                <a href="javascript:;" class="{{ $_SERVER['REQUEST_URI'] === '/about' ? 'active' : '' }}">Information</a>
                                 <ul>
                                     <li><a href="{{ url('/about') }}">About Us</a></li>
-                                    <li><a href="{{ url('/products') }}">Products</a></li>
-                                    <li><a href="{{ url('/single-product') }}">Single Product</a></li>
                                     <li><a href="{{ url('/contact') }}">Contact Us</a></li>
                                 </ul>
                             </li>
@@ -75,6 +72,9 @@ https://templatemo.com/tm-571-hexashop
                                 <li class="submenu">
                                     <a href="{{ route('login') }}">Hi, {{ Auth::user()->name }}</a>
                                     <ul>
+                                        <li>
+                                            <a href="{{ route('login') }}">Cart</a>
+                                        </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -100,6 +100,7 @@ https://templatemo.com/tm-571-hexashop
                     </nav>
                 </div>
             </div>
+        </div>
         </div>
     </header>
     <!-- ***** Header Area End ***** -->
@@ -184,7 +185,8 @@ https://templatemo.com/tm-571-hexashop
     <script src="{{ asset('assets/js/slick.js') }}"></script>
     <script src="{{ asset('assets/js/lightbox.js') }}"></script>
     <script src="{{ asset('assets/js/isotope.js') }}"></script>
-
+    <!--Fontawesome-->
+    <script src="https://kit.fontawesome.com/8e59ab2a28.js" crossorigin="anonymous"></script>
     <!-- Global Init -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script>

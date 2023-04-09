@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UpdateProfileController;
@@ -68,23 +69,16 @@ Route::middleware(['auth', 'authdisable'])->group(function () {
     })->name('profile-form');
 });
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::get('/products', [ProductController::class, 'showProduct'])->name('showProduct');
+Route::get('/products/filter', [ProductController::class, 'filterProduct'])->name('filterProduct');
 
-Route::get('/about', function () {
-    return view('about');
-});
-Route::get('/contact', function () {
-    return view('contact');
-});
-Route::get('/products', function () {
-    return view('products');
-});
-Route::get('/single-product', function () {
-    return view('single-product');
-});
+Route::get('/', [HomeController::class, 'index'])->name('index');
+
+Route::view('/about','about');
+Route::view('/contact','contact');
 
 Auth::routes();
-
+// Route::get('/single-product', function () {
+//     return view('single-product');
+// });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

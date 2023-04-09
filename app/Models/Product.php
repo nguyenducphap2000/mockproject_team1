@@ -27,7 +27,7 @@ class Product extends Model
 
     public function getAll()
     {
-        return Product::paginate(10);
+        return Product::paginate(9);
     }
 
     public function category()
@@ -127,5 +127,58 @@ class Product extends Model
     {
         return $this::where('name', 'like', '%' . $search . '%')
             ->orWhere('producer', 'like', '%' . $search . '%');
+    }
+
+    public function filterProduct($request)
+    {
+        if (
+            $request->textSearch === null && $request->category === null
+            && $request->size === null
+        ) {
+            return $this;
+        } else {
+            if ($request->textSearch !== null && $request->category !== null && $request->size === null) {
+                return $this::where([
+                    ['name', 'like', '%' . $request->textSearch . '%'],
+                    ['category_id', '=', $request->category]
+                ]);
+            } else if ($request->textSearch !== null && $request->size !== null && $request->category === null) {
+                return $this::where([
+                    ['name', 'like', '%' . $request->textSearch . '%'],
+                    ['size_id', '=', $request->size]
+                ]);
+            } else if ($request->category !== null && $request->size !== null && $request->textSearch === null) {
+                return $this::where([
+                    ['category_id', '=', $request->category],
+                    ['size_id', '=', $request->size]
+                ]);
+            } else {
+                if (
+                    $request->textSearch !== null && $request->category !== null
+                    && $request->size !== null
+                ) {
+                    return $this::where([
+                        ['name', 'like', '%' . $request->textSearch . '%'],
+                        ['category_id', '=', $request->category],
+                        ['size_id', '=', $request->size]
+                    ]);
+                } else {
+                    if (
+                        $request->textSearch === null && $request->category === null
+                        && $request->size !== null
+                    ) {
+                        return $this::where('size_id', '=', $request->size);
+                    } else if (
+                        $request->textSearch !== null && $request->category === null
+                        && $request->size === null
+                    ) {
+                        return $this::where('name', 'like', '%' . $request->textSearch . '%');
+                    } else {
+                        return $this::where('category_id', '=', $request->category);
+                    }
+                }
+            }
+        }
+        dd('not in condition');
     }
 }
