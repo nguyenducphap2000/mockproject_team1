@@ -31,6 +31,9 @@ Route::get('/single-product', function () {
 Route::get('/category', function () {
     return view('category');
 });
+Route::get('/faq', function () {
+    return view('faq');
+});
 
 Auth::routes();
 

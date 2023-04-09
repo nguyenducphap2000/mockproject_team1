@@ -69,6 +69,7 @@ https://templatemo.com/tm-571-hexashop
                                 <li><a href="{{ url('/single-product') }}">Single Product</a></li>
                                 <li><a href="{{ url('/contact') }}">Contact Us</a></li>
                                 <li><a href="{{ url('/category') }}">Category</a></li>
+                                <li><a href="{{ url('/faq') }}">FAQ</a></li>
                             </ul>
                         </li>
                         <li class="scroll-to-section">
