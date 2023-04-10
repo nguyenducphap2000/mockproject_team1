@@ -189,7 +189,9 @@
                                 <span>Ecommerce</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{ route('product-list') }}">Products</a></li>
+                                @if (Auth::user()->is_admin)
+                                    <li><a href="{{ route('product-list') }}">Products</a></li>
+                                @endif
                                 <li><a href="{{ route('order') }}">Orders</a></li>
                                 <li><a href="{{ route('cart') }}">Cart</a></li>
                                 @if (Auth::user()->is_admin)

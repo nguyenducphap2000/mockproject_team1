@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\ProductController;
@@ -32,10 +33,10 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
 
         Route::prefix('manage-product')->group(function () {
             Route::get('/product-list', [ProductController::class, 'index'])->name('product-list');
-            Route::get('/add-product',[ProductController::class, 'indexForm'])->name('add-product');
-            Route::post('/store-product',[ProductController::class, 'storeProduct'])->name('store-product');
-            Route::get('/delete-product/{id}',[ProductController::class, 'deleteProduct'])->name('delete-product');
-            Route::post('/update-product',[ProductController::class, 'updateProduct'])->name('update-product');
+            Route::get('/add-product', [ProductController::class, 'indexForm'])->name('add-product');
+            Route::post('/store-product', [ProductController::class, 'storeProduct'])->name('store-product');
+            Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+            Route::post('/update-product', [ProductController::class, 'updateProduct'])->name('update-product');
             Route::get('/search-product', [ProductController::class, 'searchProduct'])->name('search-product');
         });
     });
@@ -55,9 +56,9 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
 
 Route::middleware(['auth', 'authdisable'])->group(function () {
     Route::put('/profile/{id}', [UpdateProfileController::class, 'update'])->name('update-profile');
-    Route::get('/cart', function () {
-        return view('cart');
-    })->name('cart');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/store', [CartController::class, 'store'])->name('cartStore');
+
     Route::get('/checkout', function () {
         return view('checkout');
     })->name('checkout');
@@ -74,8 +75,8 @@ Route::get('/products/filter', [ProductController::class, 'filterProduct'])->nam
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::view('/about','about');
-Route::view('/contact','contact');
+Route::view('/about', 'about');
+Route::view('/contact', 'contact');
 
 Auth::routes();
 // Route::get('/single-product', function () {
