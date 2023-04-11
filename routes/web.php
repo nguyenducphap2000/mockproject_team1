@@ -60,8 +60,8 @@ Route::middleware(['auth', 'authdisable'])->group(function () {
         Route::post('/cart/store', [CartController::class, 'store'])->name('cartStore');
         Route::post('/cart/store-in-detail', [CartController::class, 'storeInDetail'])->name('cartStoreInDetail');
         Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cartDelete');
-        Route::get('/checkout',[CartController::class, 'checkout'])->name('checkout');
-        Route::post('/checkout/store',[CartController::class, 'checkoutStore'])->name('checkoutStore');
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::post('/checkout/store', [CartController::class, 'checkoutStore'])->name('checkoutStore');
     });
 
     Route::put('/profile/{id}', [UpdateProfileController::class, 'update'])->name('update-profile');
@@ -76,7 +76,9 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::view('/about', 'about');
 Route::view('/contact', 'contact');
 Route::get('/single-product/{id}', [ProductController::class, 'singleProduct'])->name('singleProduct');
-
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
 Auth::routes();
 // Route::get('/single-product', function () {
 //     return view('single-product');

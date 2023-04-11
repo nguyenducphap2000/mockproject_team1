@@ -120,7 +120,7 @@
                                                 <td>{{ $product->size->name }}</td>
                                                 <td>{{ $product->stock }}</td>
                                                 <td>
-                                                    @if ($product->product_status)
+                                                    @if ($product->product_status || $product->stock === 0)
                                                         <span class="badge badge-pill badge-soft-danger font-size-12">
                                                             Sold out
                                                         </span>

@@ -144,7 +144,7 @@ https://templatemo.com/tm-571-hexashop
                     <h4>Help &amp; Information</h4>
                     <ul>
                         <li><a href="#">Help</a></li>
-                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="{{route('faq')}}">FAQ's</a></li>
                         <li><a href="#">Shipping</a></li>
                         <li><a href="#">Tracking ID</a></li>
                     </ul>
