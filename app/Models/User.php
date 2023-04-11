@@ -53,6 +53,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Invoice::class);
     }
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function cart(){
+        return $this->hasOne(Cart::class);
+    }
 
     public function getAll()
     {

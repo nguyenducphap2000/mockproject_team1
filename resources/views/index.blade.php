@@ -136,11 +136,10 @@
                                     <div class="thumb">
                                         <div class="hover-content">
                                             <ul>
-                                                <li><a href="{{ url('/single-product') }}"><i class="fa fa-eye"></i></a>
+                                                <li><a href="{{ route('singleProduct', $item->id) }}"><i
+                                                            class="fa fa-eye"></i></a>
                                                 </li>
-                                                <li><a href="{{ url('/single-product') }}"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li><a href="{{ url('/single-product') }}"><i
+                                                <li><a onclick="addToCart({{ $item->id }})"><i
                                                             class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
@@ -190,11 +189,10 @@
                                     <div class="thumb">
                                         <div class="hover-content">
                                             <ul>
-                                                <li><a href="{{ url('/single-product') }}"><i class="fa fa-eye"></i></a>
+                                                <li><a href="{{ route('singleProduct', $item->id) }}"><i
+                                                            class="fa fa-eye"></i></a>
                                                 </li>
-                                                <li><a href="{{ url('/single-product') }}"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li><a href="{{ url('/single-product') }}"><i
+                                                <li><a onclick="addToCart({{ $item->id }})"><i
                                                             class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
@@ -244,10 +242,10 @@
                                     <div class="thumb">
                                         <div class="hover-content">
                                             <ul>
-                                                <li><a href="{{ route('showProduct') }}"><i class="fa fa-eye"></i></a>
+                                                <li><a href="{{ route('singleProduct', $item->id) }}"><i
+                                                            class="fa fa-eye"></i></a>
                                                 </li>
-                                                </li>
-                                                <li><a href="{{ url('/single-product') }}"><i
+                                                <li><a onclick="addToCart({{ $item->id }})"><i
                                                             class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
@@ -272,6 +270,10 @@
                 </div>
             </div>
         </div>
+        <form id="addToCart" action="{{ route('cartStore') }}" method="POST">
+            @csrf
+            <input type="hidden" name="productId" id="productId">
+        </form>
     </section>
     <!-- ***** Kids Area Ends ***** -->
 
@@ -462,4 +464,10 @@
         </div>
     </div> --}}
     <!-- ***** Subscribe Area Ends ***** -->
+    <script>
+        function addToCart(id) {
+            $("#productId").val(id);
+            document.getElementById("addToCart").submit();
+        }
+    </script>
 @endsection

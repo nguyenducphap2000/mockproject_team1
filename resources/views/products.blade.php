@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="inner-content">
-                        <h2>Check Our Products</h2>
+                        <h2>List Of Products</h2>
                         <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
                     </div>
                 </div>
@@ -76,28 +76,40 @@
                             <div class="thumb">
                                 <div class="hover-content">
                                     <ul>
-                                        <li><a href="{{route('login')}}"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="{{ route('singleProduct', $item->id) }}"><i class="fa fa-eye"></i></a>
+                                        <li><a onclick="addToCart({{ $item->id }})"><i
+                                                    class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <img style="height: 300px;" src="{{ asset('storage/' . $item->image) }}" alt="">
                             </div>
                             <div class="down-content">
                                 <h4>{{ $item->name }}</h4>
-                                <span>${{ $item->price }}</span>
+                                <span>$ <?php echo number_format($item->price, 0); ?></span>
                                 <ul class="stars">
                                     <li>
                                         <h5>{{ $item->size->name }}</h5>
                                     </li>
                                 </ul>
                                 <span
-                                    class="{{ $item->stock == 0 ? 'text text-danger' : 'text text-success' }}">{{ $item->stock == 0 ? 'Sold out' : 'Amount: ' . $item->stock }}</span>
+                                    class="{{ $item->stock == 0 ? 'text text-danger' : 'text text-success' }}">{{ $item->stock == 0 ? 'Sold out' : 'Stock: ' . $item->stock }}</span>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+            <form id="addToCart" action="{{ route('cartStore') }}" method="POST">
+                @csrf
+                <input type="hidden" name="productId" id="productId">
+            </form>
         </div>
         {{ $products->links() }}
     </section>
     <!-- ***** Products Area Ends ***** -->
+    <script>
+        function addToCart(id) {
+            $("#productId").val(id);
+            document.getElementById("addToCart").submit();
+        }
+    </script>
 @endsection

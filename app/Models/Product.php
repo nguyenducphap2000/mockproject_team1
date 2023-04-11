@@ -29,6 +29,10 @@ class Product extends Model
     {
         return Product::paginate(9);
     }
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
     public function category()
     {
@@ -37,6 +41,11 @@ class Product extends Model
     public function size()
     {
         return $this->belongsTo(Size::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
     }
 
     public function validator($data, $method)
@@ -179,6 +188,5 @@ class Product extends Model
                 }
             }
         }
-        dd('not in condition');
     }
 }

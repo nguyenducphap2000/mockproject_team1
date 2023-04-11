@@ -80,7 +80,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Orders</p>
-                                            <h4 class="mb-0">1,235</h4>
+                                            <h4 class="mb-0">{{ $numberOfOrder }}</h4>
                                         </div>
 
                                         <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
@@ -98,7 +98,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Collected Moeny</p>
-                                            <h4 class="mb-0">$35, 723</h4>
+                                            <h4 class="mb-0">$ {{ number_format($total, 2) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -116,7 +116,7 @@
                                     <div class="media">
                                         <div class="media-body">
                                             <p class="text-muted font-weight-medium">Average Price</p>
-                                            <h4 class="mb-0">$16.2</h4>
+                                            <h4 class="mb-0">$ {{ number_format($average, 2) }}</h4>
                                         </div>
 
                                         <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -141,7 +141,10 @@
                         <div class="card-body">
                             <h4 class="card-title mb-4">Latest Order</h4>
                             <div class="table-responsive">
-                                <table class="table table-centered table-nowrap mb-0">
+                                @php
+                                    $i = 1;
+                                @endphp
+                                <table class="table table-centered table-nowrap">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>Order ID</th>
@@ -151,37 +154,52 @@
                                             <th>Total</th>
                                             <th>Payment Status</th>
                                             <th>Payment Method</th>
-                                            <th>View Details</th>
+                                            <th>Order Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><a href="javascript: void(0);"
-                                                    class="text-body font-weight-bold">#SK2540</a> </td>
-                                            <td>Neal Matthews</td>
-                                            <td>
-                                                07 Oct, 2019
-                                            </td>
-                                            <td>
-                                                07 Oct, 2019
-                                            </td>
-                                            <td>
-                                                $ 1000
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-pill badge-soft-success font-size-12">Paid</span>
-                                            </td>
-                                            <td>
-                                                <i class="fab fa-cc-mastercard mr-1"></i> Mastercard
-                                            </td>
-                                            <td>
-                                                <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-primary btn-sm btn-rounded"
-                                                    data-toggle="modal" data-target=".exampleModal">
-                                                    View Details
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        @foreach ($orders as $item)
+                                            <tr>
+                                                <td><a href="javascript: void(0);"
+                                                        class="text-body font-weight-bold">{{ $i++ }}</a> </td>
+                                                <td>{{ $item->user->name }}</td>
+                                                <td>
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->purchased_date)->format('d-m-Y') }}
+                                                </td>
+                                                <td>
+                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->estimated_delivery_date)->format('d-m-Y') }}
+                                                </td>
+                                                <td>
+                                                    $ {{ number_format($item->total, 0) }}
+                                                </td>
+                                                <td>
+                                                    @if ($item->payment_status)
+                                                        <span class="badge badge-pill badge-soft-success font-size-12">
+                                                            Paid
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-pill badge-soft-danger font-size-12">
+                                                            Not yet
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <i class="fab fa-cc-mastercard mr-1"></i>
+                                                    {{ $item->payment_methods->name }}
+                                                </td>
+                                                <td>
+                                                    @if ($item->order_status)
+                                                        <span class="badge badge-pill badge-soft-success font-size-12">
+                                                            Accepted
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-pill badge-soft-danger font-size-12">
+                                                            Waiting Accept
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -193,7 +211,7 @@
             <!-- end row -->
             <div class="row mt-4">
                 <div class="col-sm-6">
-                    <a href="ecommerce-products.html" class="btn btn-primary">
+                    <a href="{{route('order')}}" class="btn btn-primary">
                         <i class="mdi mdi-arrow-right mr-1"></i> Go To Orders </a>
                 </div> <!-- end col -->
             </div> <!-- end row-->

@@ -37,6 +37,13 @@ class ProductController extends Controller
         ]);
     }
 
+    public function singleProduct($id)
+    {
+        return view('single-product',[
+            'product' => Product::where('id', $id)->first()
+        ]);
+    }
+
     public function indexForm()
     {
         return view('admin.add-product', ['categories' => Category::all(), 'sizes' => Size::all()]);

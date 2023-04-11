@@ -40,8 +40,7 @@
                             </span>
 
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/images/white-logo.png') }}" alt=""
-                                    height="45">
+                                <img src="{{ asset('assets/images/white-logo.png') }}" alt="" height="45">
                             </span>
                         </a>
                     </div>
@@ -147,6 +146,9 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
+                            <a class="dropdown-item" href="{{ route('cart') }}"><i
+                                    class="mdi mdi-cart-arrow-right mr-1"></i>
+                                Cart</a>
                             <a class="dropdown-item" href="{{ route('profile-form') }}"><i
                                     class="bx bx-user font-size-16 align-middle mr-1"></i>
                                 Profile</a>

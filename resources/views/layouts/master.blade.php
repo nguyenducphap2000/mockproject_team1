@@ -73,7 +73,7 @@ https://templatemo.com/tm-571-hexashop
                                     <a href="{{ route('login') }}">Hi, {{ Auth::user()->name }}</a>
                                     <ul>
                                         <li>
-                                            <a href="{{ route('login') }}">Cart</a>
+                                            <a href="{{ route('cart') }}">Cart</a>
                                         </li>
                                         <li>
                                             <a href="{{ route('logout') }}"
