@@ -14,6 +14,7 @@ class ProductController extends Controller
 {
     private $productObject = null;
     private const PAGE = 10;
+
     public function __construct()
     {
         $this->productObject = $this->getInstance();
@@ -79,6 +80,7 @@ class ProductController extends Controller
             return Redirect::back()->with('updateProductFail', true);
         }
     }
+
     public function searchProduct(Request $request)
     {
         $request->flash();
@@ -105,6 +107,14 @@ class ProductController extends Controller
             'products' => $this->productObject->filterProduct($request)->paginate(9),
             'categories' => Category::all(),
             'sizes' => Size::all()
+        ]);
+    }
+
+    public function getProductById(Request $request)
+    {
+        return view('single-product', [
+            'product' => $this->productObject->getProductById($request),
+            'quantity' => 1
         ]);
     }
 }

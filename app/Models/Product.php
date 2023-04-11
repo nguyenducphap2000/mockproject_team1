@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -34,6 +35,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     public function size()
     {
         return $this->belongsTo(Size::class);
@@ -41,7 +43,7 @@ class Product extends Model
 
     public function validator($data, $method)
     {
-        $rules =  [
+        $rules = [
             'productName' => ['required', 'string', 'max:255'],
             'manufacturerName' => ['required', 'string', 'max:255'],
             'category' => ['required'],
@@ -94,6 +96,7 @@ class Product extends Model
         }
         return $check;
     }
+
     public function updateProduct($request)
     {
         $validate = $this->validator($request->all(), 'update');
@@ -181,4 +184,10 @@ class Product extends Model
         }
         dd('not in condition');
     }
+
+    public function getProductById($request)
+    {
+        return $this::where('id', $request->id)->get();
+    }
+
 }

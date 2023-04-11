@@ -32,10 +32,10 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
 
         Route::prefix('manage-product')->group(function () {
             Route::get('/product-list', [ProductController::class, 'index'])->name('product-list');
-            Route::get('/add-product',[ProductController::class, 'indexForm'])->name('add-product');
-            Route::post('/store-product',[ProductController::class, 'storeProduct'])->name('store-product');
-            Route::get('/delete-product/{id}',[ProductController::class, 'deleteProduct'])->name('delete-product');
-            Route::post('/update-product',[ProductController::class, 'updateProduct'])->name('update-product');
+            Route::get('/add-product', [ProductController::class, 'indexForm'])->name('add-product');
+            Route::post('/store-product', [ProductController::class, 'storeProduct'])->name('store-product');
+            Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');
+            Route::post('/update-product', [ProductController::class, 'updateProduct'])->name('update-product');
             Route::get('/search-product', [ProductController::class, 'searchProduct'])->name('search-product');
         });
     });
@@ -51,6 +51,7 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
     Route::get('/order', function () {
         return view('order');
     })->name('order');
+
 });
 
 Route::middleware(['auth', 'authdisable'])->group(function () {
@@ -68,14 +69,15 @@ Route::middleware(['auth', 'authdisable'])->group(function () {
         return view('profile-form');
     })->name('profile-form');
 });
+Route::get('/single-product/{id}', [ProductController::class, 'getProductById'])->name('single-product');
 
 Route::get('/products', [ProductController::class, 'showProduct'])->name('showProduct');
 Route::get('/products/filter', [ProductController::class, 'filterProduct'])->name('filterProduct');
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::view('/about','about');
-Route::view('/contact','contact');
+Route::view('/about', 'about');
+Route::view('/contact', 'contact');
 
 Auth::routes();
 // Route::get('/single-product', function () {
