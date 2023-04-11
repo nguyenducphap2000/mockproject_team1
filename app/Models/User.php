@@ -49,6 +49,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
     public function getAll()
     {
         return User::where('is_admin', false);
