@@ -13,6 +13,11 @@ use function GuzzleHttp\Promise\all;
 
 class OrderController extends Controller
 {
+    /*
+     * Show list of orders
+     *
+     * @return resources/views/order.blade.php
+     */
     public function index()
     {
         $data = [];
@@ -25,6 +30,14 @@ class OrderController extends Controller
             'orders' => $data
         ]);
     }
+
+    /*
+     * Show specific one order
+     *
+     * @param Integer $id
+     *
+     * @return resources/views/order-show.blade.php
+     */
     public function show($id)
     {
         if (Order::where([
@@ -48,6 +61,13 @@ class OrderController extends Controller
         }
     }
 
+    /*
+     * Accept user's order in admin site
+     *
+     * @param Integer $id
+     *
+     * @return resources/views/order.blade.php
+     */
     public function acceptOrder($id)
     {
         if (Auth::user()->is_admin) {
@@ -60,6 +80,13 @@ class OrderController extends Controller
         }
     }
 
+    /*
+     * Checked order earned
+     *
+     * @param Integer $id
+     *
+     * @return resources/views/order.blade.php
+     */
     public function checkedOrder($id)
     {
         if (Auth::user()->is_admin) {
@@ -72,6 +99,13 @@ class OrderController extends Controller
         }
     }
 
+    /*
+     * Delete order earned not yet
+     *
+     * @param Integer $request->order_id
+     *
+     * @return resources/views/order.blade.php
+     */
     public function deleteOrder(Request $request)
     {
         if (Auth::user()->is_admin) {
@@ -82,14 +116,20 @@ class OrderController extends Controller
         }
     }
 
+     /*
+     * Search in list of orders at admin site
+     *
+     * @param String $request->billingName
+     *
+     * @return resources/views/order.blade.php
+     */
     public function search(Request $request)
     {
         $request->flash();
         $data = [];
-        if(empty($request->billingName))
-        {
+        if (empty($request->billingName)) {
             $query = new Order();
-        }else{
+        } else {
             $user = User::where('name', 'like', '%' . $request->billingName . '%')->first();
             $query = Order::where('user_id', $user->id);
         }

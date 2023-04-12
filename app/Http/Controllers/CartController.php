@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
+    /*
+     * Show cart interface with data
+     *
+     * @return resources/views/cart.blade.php
+     */
     public function index()
     {
         $carts = Cart::where('user_id', Auth::user()->id)->get();
@@ -30,11 +35,19 @@ class CartController extends Controller
         ]);
     }
 
+    /*
+     * Store product to cart table from list of product page
+     *
+     * @param Integer $request->product id
+     *
+     * @return resources/views/cart.blade.php
+     */
+
     public function store(Request $request)
     {
         $cart = new Cart();
         $product = Product::where('id', $request->productId);
-        if ($product->exists()) {
+        if ($product->exists() && $product->first()->stock > 0) {
             $cart = $cart->where([
                 ['product_id', $request->productId],
                 ['user_id', Auth::user()->id]
@@ -62,11 +75,18 @@ class CartController extends Controller
         }
     }
 
+     /*
+     * Store product to cart table from product detail page
+     *
+     * @param Integer $request->product id, $request->quantity
+     *
+     * @return resources/views/cart.blade.php
+     */
     public function storeInDetail(Request $request)
     {
         $cart = new Cart();
         $product = Product::where('id', $request->productId);
-        if ($product->exists()) {
+        if ($product->exists() && $product->first()->stock > 0) {
             $cart = $cart->where([
                 ['product_id', $request->productId],
                 ['user_id', Auth::user()->id]
@@ -91,6 +111,13 @@ class CartController extends Controller
         }
     }
 
+     /*
+     * Delete product in cart page
+     *
+     * @param : integer id
+     *
+     * @return resources/views/cart.blade.php
+     */
     public function delete($id)
     {
         $cart = Cart::where('id', $id);
@@ -106,6 +133,12 @@ class CartController extends Controller
         }
     }
 
+     /*
+     * Show checkout page, redirect from cart page
+     *
+     *
+     * @return resources/views/checkout.blade.php
+     */
     public function checkout()
     {
         $total = 0;
@@ -120,6 +153,13 @@ class CartController extends Controller
         ]);
     }
 
+    /*
+     * Finish checkout and store in order, transaction table
+     * and delete in cart table by user_id
+     *
+     *
+     * @return resources/views/order.blade.php
+     */
     public function checkoutStore(Request $request)
     {
         $rules = [

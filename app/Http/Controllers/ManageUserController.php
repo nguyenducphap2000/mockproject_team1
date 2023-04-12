@@ -15,6 +15,12 @@ class ManageUserController extends Controller
         $this->userObject = $this->getInstance();
     }
 
+    /*
+     * Get user object only once
+     *
+     *
+     * @return Object: User
+     */
     public function getInstance()
     {
         if ($this->userObject === null) {
@@ -23,11 +29,14 @@ class ManageUserController extends Controller
         }
         return $this->userObject;
     }
-    public function index()
-    {
-        return view('overview');
-    }
 
+    /*
+     * Get list of users (all or not have user disable)
+     *
+     * @param bool $request->session()->get('toggle')
+     *
+     * @return resources/views/admin/user-list.blade.php
+     */
     public function listOfUser(Request $request)
     {
         if ($request->session()->get('toggle') === 'true') {
@@ -41,6 +50,13 @@ class ManageUserController extends Controller
         }
     }
 
+    /*
+     * Disable user
+     *
+     * @param Integer $request->userId
+     *
+     * @return resources/views/admin/user-list.blade.php
+     */
     public function disableUser(Request $request)
     {
         $check = $this->userObject->disable($request->all());
@@ -51,11 +67,26 @@ class ManageUserController extends Controller
         }
     }
 
+    /*
+     * Set status show list of user with (user disable or not)
+     *
+     * @param bool $request->toggle
+     *
+     * @return resources/views/admin/user-list.blade.php
+     */
     public function toggleDisableUser(Request $request)
     {
         $request->session()->put('toggle', $request->toggle);
         return redirect()->route('user-list');
     }
+
+    /*
+     * Update user
+     *
+     * @param array $request: id_update, name, number phone, address, is_disable, password
+     *
+     * @return resources/views/admin/user-list.blade.php
+     */
 
     public function updateUser(Request $request)
     {
@@ -70,6 +101,13 @@ class ManageUserController extends Controller
         }
     }
 
+    /*
+     * Search user by name and phone number
+     *
+     * @param String $request: text search
+     *
+     * @return resources/views/admin/user-list.blade.php
+     */
     public function searchUser(Request $request)
     {
         $request->flash();

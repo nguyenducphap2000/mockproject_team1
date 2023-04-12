@@ -58,15 +58,28 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function cart(){
+    public function cart()
+    {
         return $this->hasOne(Cart::class);
     }
 
+    /*
+     * Get all user except user disable called ManageUserController
+     *
+     * @return Illuminate\Database\Eloquent\Model
+     */
     public function getAll()
     {
         return User::where('is_admin', false);
     }
 
+    /*
+     * Disable user called ManageUserController
+     *
+     * @param Integer $request['userId]
+     *
+     * @return Boolean
+     */
     public function disable($request)
     {
         $check = false;
@@ -79,6 +92,13 @@ class User extends Authenticatable
         return $check;
     }
 
+    /*
+     * Update user called ManageUserController
+     *
+     * @param Array $request : name, phoneNumber, address, is_disable, password
+     *
+     * @return Boolean
+     */
     public function updateUser($request)
     {
         $check = false;
@@ -103,17 +123,31 @@ class User extends Authenticatable
         return $check;
     }
 
+    /*
+     * Search user called ManageUserController
+     *
+     * @param String $search
+     *
+     * @return Illuminate\Database\Eloquent
+     */
     public function searchUser($toggleSession, $search)
     {
         if ($toggleSession === 'true') {
             return $this->getAll()->where('name', 'like', '%' . $search . '%')
-            ->orWhere('phone_number', 'like', '%' . $search . '%');
-        }else{
+                ->orWhere('phone_number', 'like', '%' . $search . '%');
+        } else {
             return $this->getAll()->where('is_disable', false)->where('name', 'like', '%' . $search . '%')
-            ->orWhere('phone_number', 'like', '%' . $search . '%');
+                ->orWhere('phone_number', 'like', '%' . $search . '%');
         }
     }
 
+     /*
+     * Validate update user
+     *
+     * @param Array $data
+     *
+     * @return Illuminate\Support\Facades\Validator
+     */
     public function validator(array $data)
     {
         $rules = [

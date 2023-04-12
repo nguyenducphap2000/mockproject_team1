@@ -60,8 +60,12 @@
                             </div>
                             <div class="total">
                                 {{-- <h4>Total: $210.00</h4> --}}
-                                <div class="main-border-button"><button class="btn btn-secondary" type="submit">Add To
-                                        Cart</button></div>
+                                <div class="main-border-button">
+                                    <button {{ $product->stock <= 0 ? 'disabled' : '' }} class="btn btn-secondary"
+                                        type="submit">Add To
+                                        Cart
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

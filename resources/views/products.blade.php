@@ -76,9 +76,18 @@
                             <div class="thumb">
                                 <div class="hover-content">
                                     <ul>
-                                        <li><a href="{{ route('singleProduct', $item->id) }}"><i class="fa fa-eye"></i></a>
-                                        <li><a onclick="addToCart({{ $item->id }})"><i
-                                                    class="fa fa-shopping-cart"></i></a></li>
+                                        <li>
+                                            <a href="{{ route('singleProduct', $item->id) }}">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </li>
+                                        @if ($item->stock > 0)
+                                            <li>
+                                                <a onclick="addToCart({{ $item->id }})">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <img style="height: 300px;" src="{{ asset('storage/' . $item->image) }}" alt="">
@@ -92,7 +101,7 @@
                                     </li>
                                 </ul>
                                 <span
-                                    class="{{ $item->stock == 0 ? 'text text-danger' : 'text text-success' }}">{{ $item->stock == 0 ? 'Sold out' : 'Stock: ' . $item->stock }}</span>
+                                    class="{{ $item->stock <= 0 ? 'text text-danger' : 'text text-success' }}">{{ $item->stock <= 0 ? 'Sold out' : 'Stock: ' . $item->stock }}</span>
                             </div>
                         </div>
                     </div>

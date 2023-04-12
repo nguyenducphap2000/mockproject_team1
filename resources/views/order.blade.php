@@ -39,10 +39,10 @@
                         </div>
                     @endif
                     @if (session('checkoutSuccess'))
-                    <div class="alert alert-success" role="alert">
-                        Order added successfully
-                    </div>
-                @endif
+                        <div class="alert alert-success" role="alert">
+                            Order added successfully
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -53,11 +53,14 @@
                                 <div class="col-sm-4">
                                     <div class="search-box mr-2 mb-2 d-inline-block">
                                         <div class="position-relative">
-                                            <form action="{{ route('orderSearch') }}" method="GET">
-                                                <input value="{{ old('billingName') }}" name="billingName" type="text"
-                                                    class="form-control" placeholder="Search by billing name...">
-                                                <i class="bx bx-search-alt search-icon"></i>
-                                            </form>
+                                            @if (Auth::user()->is_admin)
+                                                <form action="{{ route('orderSearch') }}" method="GET">
+                                                    <input value="{{ old('billingName') }}" name="billingName"
+                                                        type="text" class="form-control"
+                                                        placeholder="Search by billing name...">
+                                                    <i class="bx bx-search-alt search-icon"></i>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

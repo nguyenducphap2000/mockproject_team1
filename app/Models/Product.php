@@ -48,6 +48,13 @@ class Product extends Model
         return $this->hasMany(Cart::class);
     }
 
+    /*
+     * Validate add product form
+     *
+     * @param Array $data
+     *
+     * @return Illuminate\Support\Facades\Validator
+     */
     public function validator($data, $method)
     {
         $rules =  [
@@ -68,6 +75,13 @@ class Product extends Model
         return $validate;
     }
 
+    /*
+     * delete product called ProductController
+     *
+     * @param Integer $id
+     *
+     * @return Boolean
+     */
     public function deleteProduct($id)
     {
         $check = false;
@@ -78,6 +92,13 @@ class Product extends Model
         return $check;
     }
 
+    /*
+     * Store product called ProductController
+     *
+     * @param Integer $id
+     *
+     * @return Boolean
+     */
     public function storeProduct($request)
     {
         $validate = $this->validator($request->all(), 'store');
@@ -103,6 +124,14 @@ class Product extends Model
         }
         return $check;
     }
+
+    /*
+     * Update product called ProductController
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Boolean
+     */
     public function updateProduct($request)
     {
         $validate = $this->validator($request->all(), 'update');
@@ -132,12 +161,26 @@ class Product extends Model
         return $check;
     }
 
+    /*
+     * Update product called ProductController
+     *
+     * @param String $search
+     *
+     * @return Illuminate\Database\Eloquent\Model
+     */
     public function searchProduct($search)
     {
         return $this::where('name', 'like', '%' . $search . '%')
             ->orWhere('producer', 'like', '%' . $search . '%');
     }
 
+    /*
+     * Update product called ProductController
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Database\Eloquent\Model
+     */
     public function filterProduct($request)
     {
         if (

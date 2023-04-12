@@ -18,6 +18,11 @@ class UpdateProfileController extends Controller
         $this->userObject = $this->getInstance();
     }
 
+    /*
+     * Get user object once
+     *
+     * @return user object
+     */
     public function getInstance()
     {
         if ($this->userObject === null) {
@@ -26,6 +31,13 @@ class UpdateProfileController extends Controller
         }
         return $this->userObject;
     }
+    /*
+     * Update user profile
+     *
+     *@param Array $request: name, phoneNumber, address, password
+     *
+     * @return /resources/views/profile-form.blade.php
+     */
     public function update(Request $request, $id)
     {
         $validate = $this->userObject->validator($request->all());
