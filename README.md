@@ -17,7 +17,7 @@ SSH: git@github.com:nguyenducphap2000/mockproject_team1.git
 - Config file .env: suit for database in your computer
 
 ## Terminal Command
-- Composer install
+- composer install
 - php artisan migrate
 - php artisan db:seed
 - php artisan storage:link
